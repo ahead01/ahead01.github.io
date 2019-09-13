@@ -1,0 +1,98 @@
+%\documentclass[12pt]{article}
+
+%\usepackage{cite}
+
+%\begin{document}
+
+\section{Face Detection} \label{FaceDetection}
+The first step in any system seeking to classify facial images is identifying the presence of a face in an image. The process of face detection involves two steps: determining if there is a face or not and then determining the boundaries of the face in the image. The primary challenge in the face detection stage is the trade-off between false positives/negatives and performance. In the following section, three techniques for detecting faces in images are presented: template models, geometric models and machine learning models.
+
+\subsection{Template Models}
+
+A method for detecting faces in images using template matching combined with support vector machines (SVM) is described in \cite{ai2001face}. Templates are used for identifying face candidate areas and a SVM classifier is used to classify candidate areas as face or non-face areas.
+
+The first stage in the model described in \cite{ai2001face} is to utilize templates to filter out face candidate images for the classifier to analyze. Two templates are used for this stage: eyes-in-whole and face itself \cite{ai2001face}. The two templates were generated through analysis of a set of 50 mugshots that were aligned, normalized for size, and then averaged to create one image called the average face \cite{ai2001face}. The average face image is then sampled for two regions: the 20 x 20 whole face region and the 20 x 8 eyes-in-whole region \cite{ai2001face}. These templates are applied to the testing images by finding correlation coefficients for intensity for the test image related to the templates. Images where both templates match over a threshold of .25 are retained for SVM analysis \cite{ai2001face}.
+
+The subset of images that are identified as face candidate images are then classified by a SVM as either containing a face or not. The SVM was trained on 5125 face sample images. In order to improve training speed and performance the negative training examples were collected using samples identified incorrectly by the template matching method \cite{ai2001face}. After training and testing once with incorrectly labeled images from template matching, all images incorrectly labeled by the SVM were subsequently used in the next iteration of training as negative examples \cite{ai2001face}. This process was then repeated until an appropriate number of negative samples were available for testing \cite{ai2001face}.
+
+In order to detect faces of varying scale in the original image, a pyramid of images, each a sub-sample of a ratio of 1.2 to the next, was generated and filtered using template matching and SVM \cite{ai2001face}. 
+
+% Unsure about this piece
+%Because the authors felt that images that include faces tend to give high responses for consecutive scaled images, a 
+
+For a test set of 230 images with a total of 545 faces, the algorithm described in \cite{ai2001face} detected 516 faces with a positive detection rate of 94.7\% and 815 false-positives. These results on the same test set compared with system 5 (single neural network) and system 11 (two neural networks) described by \cite{rowley1998nn} show that systems described by \cite{rowley1998nn} produce higher detection rates, 97.8\% and 96.3\% respectively. System 5 produces a much higher number of false-positives (1841) and System 11 produced a lower number of false positives (87).
+
+The algorithm is also tested on the test set from \cite{rowley1998nn} which consists of 130 images with 507 faces. The template matching and SVM system detected 415 faces with a detection rate of 81.9\% and 465 false-positives. System 5 by \cite{rowley1998nn} detected 459 faces with a detection rate of 90.5\% and 570 false-positives. The System 11 by \cite{rowley1998nn} detected 437 faces with a detection rate of 86.2\% and 23 false-positives.
+
+Overall the experimental results indicate that the template and SVM based system may be superior to System 5 proposed by \cite{rowley1998nn} and inferior to System 11 proposed by \cite{rowley1998nn}.
+
+%The SVM's kernel function is the Gaussian radial basis function and 374 of the possible 400 points are used as input vectors \cite{ai2001face} ( some corner points are excluded). 
+
+
+\subsection{Geometric Models}
+A method for detecting faces in images using geometric rules is proposed by \cite{lin2000human}. In \cite{lin2000human} know geometric characteristics of facial feature are used during analysis to detect the presence of a face in an image. The first step in the processes outlined by \cite{lin2000human} is to read in the image and convert it to a binary image. The second step is to label all 4-connected components in the resulting images to form blocks of interest and then to determine the center of each of those blocks \cite{lin2000human}. The third step identifies all groups of three blocks whose centers form an isosceles triangle. Finally, all blocks that are part of triangles found in step three are labeled as potential face regions \cite{lin2000human}.
+
+The binary conversion first transforms any color images to grayscale by eliminating hue and saturation and retaining luminance \cite{lin2000human}. All grayscale images are then thresholded (relying on the assumption that objects of interest are darker than the background) with a given threshold $T$. Morphological operations of erosion, then dilation (also called opening) are performed on the resulting binary images to remove noise followed by dilation and erosion (also called closing) to close holes.
+
+Next, 4-connected components are identified in the image. Based on the idea that two eyes and a mouth will form an isosceles triangle \cite{lin2000human}, all sets of 4-connected blocks are then tested for conformance to rules, allowing for 25\% deviation, that the centers of the three blocks create an isosceles triangle. After all isosceles triangles are identified as potential face regions, they are verified using a combination of size normalization, weighted mask and threshold to determine if the potential face region is a verified face.
+
+All identified potential face regions are normalized in size (pixel height and width) using bi-cubic interpolation \cite{lin2000human}. Based on the results of 10 binary training faces, the authors determined a target mask with which to compare candidate regions. Based on the similarity between the target mask and the mask obtained from the normalized face region, the region is classified as either a face region or a non-face region. The method for creating the target mask and for computing the weighted comparison is described in \cite{lin2000human}. 
+
+Experimental results from testing the system described in \cite{lin2000human} showed that execution time for face detection varies based on size, resolution, and complexity of the images.
+
+
+\subsection{Machine Learning Models}
+\subsubsection{AdaBoost}
+A method for face detection in images that attempts to balance performance with accuracy is described in \cite{viola2004robust}. By refining concepts from prior research and providing novel methods for calculation \cite{viola2004robust} attempt to achieve a more accurate system for face detection that improves performance over existing models.
+
+The integral image concept is introduced by \cite{viola2004robust} as a method for pre-processing to improve performance. The integral image is created by scanning the image one time from left to right and generating an integral image where the value at each point $(x,\: y)$ in the integral image is equal to the sum of all points above and to the left of the point $(x,\: y)$ in the original image. This concept is expressed by \cite{viola2004robust} in the below formula where $ ii(x, \: y) $ represents a point on the integral image and $ i(x^\prime, \: y^\prime) $ represents a point on the original image:
+
+\begin{equation}
+\label{eqn_integralImage1}
+ii(x, \: y) \; = \sum\limits_{x^\prime \, \leq \, x,\, y^\prime \, \leq \, y} i(x^\prime,\: y^\prime)
+\end{equation}
+
+After the integral image is created, it is used for computing values for rectangle features defined by \cite{viola2004robust}. The rectangle features are employed by \cite{viola2004robust} in an effort to improve performance over pixel-based classification methods. Three kinds of rectangle features are used: two-rectangle features, three-rectangle features, and four-rectangle features. Two-rectangle features represent the difference between the sum of two adjacent and equal-sized rectangular regions, three-rectangle features represent the sum of an inner rectangle subtracted from the sum of two adjacent and equal sized outer rectangles and four-rectangle features represent the difference in sums of diagonally adjacent and equal sized rectangles \cite{viola2004robust}.
+
+A principal benefit of the integral image is the computational advantage it provides over other methods. Most face detection methods scan the image in search of faces at multiple scales. In the example provided by \cite{viola2004robust}, the  scale of 24 x 24 pixels is used for generating the first set of rectangle features. Next, the size of the rectangle features is increased by a factor of 1.25 and the rectangle features are recalculated. This process is repeated until the rectangle feature is too large for the image, the number of times given by:
+
+\begin{equation}
+\label{eqn_integralImage2}
+min(x^\prime, y^\prime) = max(x, y) (S)^n
+\end{equation}
+
+\begin{equation}
+\label{eqn_integralImage3}
+n = \rceil{ \log_{S} max(x^\prime, y^\prime)}
+\end{equation}
+
+Where $S$ is the scaling factor of the rectangle features, $(x^\prime, y^\prime)$ are the dimensions in pixels of the image and $n$ is the number of iterations of scaling features to produce. 
+%Further, the number of features produced at each iteration is given by Therefore, 
+An image of size 384 x 288, starting with a base rectangle feature scale of 24 x 24 will produce 160,000 features for each image. Not only is this a large number of features, but the calculation required for each one is intensive and repetitive. \cite{viola2004robust} show that by using the integral image, the amount of computation necessary to compute each of these features is greatly reduced.
+
+In order to perform classification, a variant of the AdaBoost algorithm used for feature selection is used \cite{viola2004robust}. For each feature, a weak learning algorithm first determines the optimal threshold of the classification function \cite{viola2004robust}.From there multiple rounds of weak learning classification are performed and finally result in a strong classifier that is the combination of all the weak classifiers \cite{viola2004robust}. The result is a classification of the region as either a face or a non-face region. 
+
+
+\subsection{Neural Network Model}
+A model using neural networks (NN) to detect the presence of a face in images is described in \cite{rowley1998nn}. The models proposed by \cite{rowley1998nn} utilizes multiple layers of neural networks to perform feature extraction and detection. In order to accommodate for the commonality of large variances in lighting, occlusion, pose, expression, and identity, \cite{rowley1998nn} states that multiple classifiers should be used to help handle these variations and that the output of those classifiers can be used as input into a final classifier that determines the presence of a face in the image.
+
+The systems for face detection proposed by \cite{rowley1998nn} consists of 4 primary modules: localization and pose estimation, preprocessing, detection, and arbitration. Localization and pose estimation is performed with a neural network that analyzes the pixel values of the image as inputs. Localization determines the approximate boundary of the head in the image. Pose estimation determines the approximate angle of any tilt or roll from upright of the head in the image. Preporcessing is preformed using traditional image processing techniques for improving brightness and contrast as well as to reduce the impact of variations caused by lighting or camera quality \cite{rowley1998nn}. The detection phase, performed with a neural network, makes an initial determination as to whether there is a face in the region or not. Finally, arbitration is performed with another neural network that analyzes the results of prior stages to make the final determination if the face detected in other stages is valid or not.
+
+
+The first system presented by \cite{rowley1998nn} is concerned with upright face detection. First, the image is segmented into regions of 20 x 20, 10 x 10, 5 x 5 and 20 x 5 pixels and those regions are fed to a neural network classifier that determines locations that might contain a face. This same process is repeated using a sub-sample of the original image and applying the detection networks again. The outputs of these networks are connected to a final arbitrator network that makes the determination as to whether or not the original 20 x 20 region contains a face \cite{rowley1998nn}.
+
+The second system proposed by \cite{rowley1998nn} is concerned with tilted face detection. The system for upright detection is prepended with another neural network that detects the possible tilt or rotation of the face in the window and performs the necessary rotation to make the face upright for the face detector \cite{rowley1998nn}. Even if there is no face in the window, the rotation is still applied as the non-face window will still result in a non-face detection \cite{rowley1998nn}.
+
+The systems proposed by \cite{rowley1998nn} both performed well on the testing data compared to prior techniques. The upright face detection system was evaluated with a testing data set of images compiled by the author as well as images from the FERET database that contain frontal faces. The tilted face detection system was evaluated using the same data set collected for the upright detection algorithm as well as images from the FERET database, classified into three groups based on how far the face in the image is aligned from the frontal position \cite{rowley1998nn}.
+
+
+%$$ NEED \ MORE $$
+
+
+%\bibliographystyle{ieeetr}
+%\bibliography{references}
+
+
+%\end{document}
+
+

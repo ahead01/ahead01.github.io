@@ -1,0 +1,257 @@
+\iffalse
+\documentclass{IEEEtran}
+
+%\pagenumbering{roman}
+
+\usepackage{xr}
+\externaldocument{Classification}
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{mathdots}
+\usepackage{yhmath}
+\usepackage{cancel}
+\usepackage{color}
+\usepackage{siunitx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usetikzlibrary{fadings}
+
+
+\begin{document}
+\fi
+\section{Facial Expression Classification} \label{classification}
+The classification portion of a facial expression recognition system at it's most basic level will take features as inputs and based on those inputs will make a determination of the expression displayed in the image. The input features will be the output of the feature extraction and selection stage and the determined class will be one of a pre-provided set of possibilities. In general, this type of classification has been performed either with a rule based scheme or using supervised machine learning classification algorithms. In the following section, rule-based and machine learning based classification methods will be examined.
+
+
+\subsection{Rule Based Classification} \label{3-RBC}
+\subsubsection{Probabilistic Model} As part of their system for robust facial expression recognition \cite{ioannou2007robust} implement a rule based classification model.
+Instead of using the six archetypal expressions described by \cite{ekman1987universals} a quadrants of emotions wheel is used to classify emotions. A rule based probabilistic measure is used to determine which emotion is described in the image. The rules used by \cite{ioannou2007robust} consist of ranges corresponding to high, medium, and low activation of the facial animation parameters detected by the extraction phase. Because it is possible that not all possible defined features could be extracted from an image, \cite{ioannou2007robust} designed rules to ensure that only features that are known with a high degree of confidence have a significant impact on classification and those features that are not extracted or are extracted with lower degrees of confidence have less of an impact on the classification decision \cite{ioannou2007robust}. Based on the calculations of the rules outlined in \cite{ioannou2007robust}, the emotion is determined based on the $(x,y)$ point on the plot of activation emotion space as described in \cite{ioannou2007robust}. The $x$ and $y$ coordinates are determined based on the rules outlined in \cite{ioannou2007robust}.
+
+
+\subsection{Machine Learning Based Classification} \label{3-LBC}
+\subsubsection{Naive Bayesian Classifier}
+A Naive Bayesian (NB) classification algorithm is used by \cite{lajevardi2012automatic} to classify images based on the output of each of the afore mentioned feature extraction methods. Naive Bayesian classifiers are Bayesian networks where all attributes are assumed to be independent \cite{zhang2004optimality}. Despite the fact that this assumption, called conditional independence, is rarely true in real world situations (there is typically some interdependence or correlation among features), Naive Bayesian classifiers have been shown to perform well compared to other classification methods \cite{zhang2004optimality}.
+
+Bayesian classifiers make a classification determination based on the results of an evaluation function that examines the probability of each class given values fore each feature and selects the class with the highest probability. The algorithm stores the conditional probability, sometimes called the weight, of each feature given the class and for each iteration of training the conditional probabilities of each class are updated based on the result. It is an important characteristic of the Bayesian classifiers that the algorithm assumes that the features are statistically independent \cite{langley1992analysis}. Because of the fact that in most real world scenarios features are not statistically independent, initial work assumed that this classification method might produce poor results \cite{zhang2004optimality} \cite{langley1992analysis}. However, as shown in \cite{zhang2004optimality} that is not the case, rather Naive Bayesian classifiers have been shown to produce results on par with more sophisticated classification algorithms \cite{zhang2004optimality}.
+
+
+The Naive Bayesian classifier is a probabilistic based model. First the probability of each class $c$ is calculated based on the given feature set $X = (x_1,x_2,...,x_n)$ as:
+
+\begin{equation}
+\label{eqn_nb_pclassGivenFeat}
+p(c|X) = \frac{p(X|c)\:p(c)}{p(X)}
+\end{equation}
+
+\begin{center}
+where
+\end{center}
+\begin{equation}
+\label{eqn_nb_pclassGivenFeat}
+p(c) = \frac{Number \: of \: Samples \: in \: Class \: c}{Total \: Number \: of \: Samples}
+\end{equation}
+
+ \cite{lajevardi2012automatic} and $p(X)$ is equal for all classes and can therefore be ignored \cite{rish2001empirical}.
+
+
+The evaluation function $p(X|c)$ accounts for the probability of each feature set $X$ given each class $c$. This is often called the conditional probability. The function for the conditional probability is given as:
+
+\begin{equation}
+\label{eqn_nb_cprob}
+p(X|c) = \prod_{i=1}^n p(x_i|c)
+\end{equation}
+
+and the class $C$ is determined by the maximum value of $p(c|X)$ after evaluating all classes $c$ where the total number of classes $k$ is shown as:
+
+\begin{equation}
+\label{eqn_nb_classify}
+C = max \{p(c_1|X),...,p(c_k|X)\}
+\end{equation}
+
+\subsubsection{Neural Network Classifier}
+Neural networks are a popular machine learning algorithm used for multi-class classification problem. Neural networks have been used been used in Face Detection, Feature Extraction and Classification stages of other facial expression recognition systems with success. \cite{rowley1998nn} used neural networks for face detection, \cite{xie2019deep}, \cite{ioannou2007robust}, and \cite{yu2018eye} used neural networks for feature extraction and \cite{alazzawi2018performance} and \cite{parkhi2015deep} used neural networks for face recognition. 
+
+Neural networks, modeled after the function of neurons in the human brain, are networks of connected nodes called perceptrons \cite{pal1992multilayer}. There is an input layer of nodes where each node corresponds to one feature of input, followed by one or more ``hidden'' layers of nodes that connect prior layers to the next with weighted connections, the final layer is the output layer which encodes the classification \cite{pal1992multilayer}.
+
+
+\begin{figure}
+\centering
+\input{NN-fig}
+\caption{A Neural Network with $n + 1$ hidden layers, neuron outputs $y$ and connection weights $w$.}
+\label{fig_sim}
+\end{figure}
+
+
+Given node $i$ in layer $h$ connected to node $j$ in layer $h+1$, the equation for the input ($x$) to $j$ from $i$ is given as the product of the output of $i$ and the weight of the connection from $i$ to $j$:
+
+%\begin{equation}
+%\label{eqn_nn_nodeinput}
+% x^{h+1}_{j} \ = \ y^h_i w^h_{ij} - \theta^{h+1}_i
+%\end{equation}
+%$\theta^{h+1}_j$ is the threshold of neuron $i$ in layer $h$,
+
+\begin{equation}
+\label{eqn_nn_nodeinput}
+ x^{h+1}_{j} \ = \ y^h_i w^h_{ij}
+\end{equation}
+
+or
+
+\begin{equation}
+\label{eqn_nn_nodeinput2}
+ x_{j} \ = \ y_i w_{ij}
+\end{equation}
+
+where $y^h_i$ is the output of neuron $i$ and $w^h_{ij}$ is the weight of the connection between $i$ and $j$. $y^h_i$ is defined for nodes in the input layer $I$ as:
+
+\begin{equation}
+\label{eqn_nn_inodeoutput}
+ y_j^I = x_j^I
+\end{equation}
+
+and for nodes in all other layers $h$ as:
+
+\begin{equation}
+\label{eqn_nn_hnodeoutput}
+y^h_j = f(x_j^h)
+\end{equation}
+
+where $f(x_j^h)$ is the activation function. The most popular activation functions are the logistic sigmoid function, the hyberbolic tangent function (tanh) and the rectified
+linear unit (ReLU) function \cite{lecun2015deep}. Currently the most popular of these activation functions is the ReLU function\cite{lecun2015deep}.
+
+The logistic sigmoid function is given as:
+
+\begin{equation}
+\label{eqn_nn_sigmoid}
+f(x) = \frac{1}{1 + e^{-x}}
+\end{equation}
+
+the hyberbolic tangent is given as:
+
+\begin{equation}
+\label{eqn_nn_tanh}
+f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}
+\end{equation}
+
+and the ReLu function is given as:
+\begin{equation}
+\label{eqn_nn_relu}
+f(x) = max(0,x)
+\end{equation}
+
+
+Subsequentially the input to node $j$ in layer $h+1$ from $n$ nodes in layer $h$ that connect to $j$ is given by:
+
+\begin{equation}
+\label{eqn_nn_allnodeoutput}
+x^{h+1}_{j} \ = \sum^n_{k=1} \ y^h_k w^h_{kj} - \theta^{h+1}_j
+\end{equation}
+
+where $ \theta^{h+1}_j $ is the threshold of neuron $j$ in layer $h+1$.
+
+
+
+While data flows from the input layer of the network to the output layer, learning flows from the output layer to the input. During training, the weights of each connection are adjusted automatically to minimize the error between the expected output of any node and its actual output. This can be thought of as a relationship that indicates the magnitude of the impact of a change in weight on the error for that node \cite{lecun2015deep}. The weights for each node are adjusted based on the derivative of the cumulative error at each of the nodes in layers closer to the the output side of the network. Therefore the flow of the weight adjustments is in the opposite direction as the flow of data through the network, for this reason, this flow is called backpropogation \cite{lecun2015deep}.
+
+Backpropogation begins at the output layer of the network where error for each node is calculated based on a selected cost function. Two commonly used cost functions are logistic regression and quadratic.
+
+%\subsubsection{Quadratic Cost Function}
+The quadratic cost function is the more simple of the two and has been used in some of the earliest neural networks \cite{rumelhart1988learning}. Where error $\varepsilon$ at one node $o$ is given by:
+
+\begin{equation}
+\label{eqn_nn_error}
+\varepsilon_o = \frac{1}{2} (y_o - d_o)^2
+\end{equation}
+
+And where error of the entire network can be expressed as:
+\begin{equation}
+\label{eqn_nn_total error}
+\varepsilon = \frac{1}{2}\sum^m_{h=1} \sum^{N_L}_{j=1} (y_j - d_j)^2
+\end{equation}
+where $m$ is the total number of layers in the network and $N_L$ is equal to the number of nodes in the current layer $h$.
+
+Error at a node can be minimized using gradient decent by differentiating equation \ref{eqn_nn_error} \cite{rumelhart1988learning}, this gives:
+
+\begin{equation}
+\label{eqn_nn_errordiff}
+\frac{\delta \varepsilon}{\delta y_o} = y_o - d_o
+\end{equation}
+
+Then based on the chain rule \cite{abdeljawad2015conformable}, the value of $\frac{\delta \varepsilon}{\delta y_k}$ for any node $k$ connected to node $o$, where $o$ is one layer closer to the output layer than $k$, can be given as:
+\begin{equation}
+\label{eqn_nn_errordiffchain}
+\frac{\delta \varepsilon}{\delta y_k} = \frac{\delta \varepsilon}{\delta y_o} \cdot \frac{\delta y_o}{\delta y_k}
+\end{equation}
+
+
+
+Because we cannot directly modify the output of a node $k$ based on error for the output of node $o$ which is in the layer above it, based on the relationship from equation \ref{eqn_nn_nodeinput}, the input to node $o$ can be indirectly modified by adjusting the weight of the connection between $k$ and $o$.
+%The input to node $i$ from node $z$ ($x_{zi}$) can be given as: $$ x_{zi} = y_z w_{zi} $$
+
+
+Therefore we can adjust the input to $o$ from $k$ by adjusting the value of $w_{ko}$ instead of $y_k$. This gives us equation \ref{eqn_nn_errordiffchain} expressed in terms of the weight of the connection between nodes $k$ and $o$:
+
+\begin{equation}
+\label{eqn_nn_weightdiff}
+\frac{\delta \varepsilon}{\delta w_{ko}} = \frac{\delta  \sigma}{\delta y_o} \cdot \frac{\delta y_o}{\delta w_{ko}}
+\end{equation}
+
+The simplest modification of weight $w$ expressed as $\Delta w$ is by an amount proportional to 
+
+\begin{equation}
+\label{eqn_nn_deltaweight}
+\Delta w^h_{ij} = - \varepsilon \frac{\delta \varepsilon}{\delta w_{ij}} + \alpha \Delta w^{h+1}_{jk}
+\end{equation}
+
+where $\alpha$ is an exponential decay factor between 0 and 1 that designates the impact of $\Delta w^{h+1}_{jk}$ on the $\Delta w^h_{ij}$ \cite{rumelhart1988learning}.
+
+
+%\subsubsection{Logistic Regression Cost Function} 
+A second option for the cost function is logistic regression. Logistic regression is used to examine the relationship between a outcome and a set of dependent variables \cite{hosmer2013applied}. 
+
+While the entire network solves multi-class problems, each individual node has a binary output (1 or 0). The mean expected value of a node's output $y^h_j$ based on a given class $c$ can be expressed as a linear function $E(y^h_j|c)$, also called the conditional mean \cite{hosmer2013applied}:
+
+\begin{equation}
+\label{eqn_regression1}
+E(y^h_j|c) =  \beta_0 + \beta_1c
+\end{equation}
+
+Further, due to the dichotomous nature of the node output (the values of $y^h_j$ are either 0 or 1) the values for $E(y^h_j|c)$ all fall between 0 and 1
+ [i.e., $ 0\leq E(y^h_j|c) \leq1 $] \cite{hosmer2013applied}. Based on this, a regression based on the logistic distribution can be represented as:
+ 
+ \begin{equation}
+\label{eqn_regression2}
+E(y^h_j|c) =  \frac{e^{\beta_0 + \beta_1c}}{1+e^{\beta_0 + \beta_1c}}
+\end{equation}
+
+this model can be transformed using the logit transformation to:
+
+\begin{equation}
+\label{eqn_regression3}
+g(x) = \log \frac{E(y^h_j|c)}{1 - E(y^h_j|c)} = \beta_0 + \beta_1x
+\end{equation}
+
+the value of $y^h_j$ can now be expressed based on the value of $E(y^h_j|c)$ plus some error $\varepsilon$, thus:
+
+ \begin{equation}
+\label{eqn_regression4}
+y^h_j = E(y^h_j|c) + \varepsilon
+\end{equation}
+
+as this function is a linear equation it can be differentiated to understand the sensitivity of the change in the output value ($y^h_j$ in this case) to change in the input value ($c$). 
+
+As mentioned above, many prior works have utilized neural network classification models during one of the stages of the facial expression recognition process. Neural networks have been used for a variety of classification tasks and have performed well when trained properly. The quality of the classifier is strongly tied to the quality of the training data. Often, the ability to train a model to high degrees of accuracy requires a significant amount of time and data. Based on the above information, a neural network model, with appropriate parameters can be used for any classification task within a facial expression recognition system.
+
+
+\iffalse
+\newpage
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+
+\end{document}
+\fi

@@ -1,0 +1,101 @@
+\documentclass{IEEEtran}
+
+%\pagenumbering{roman}
+\usepackage{xr}
+\externaldocument{Classification}
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{mathdots}
+\usepackage{yhmath}
+\usepackage{cancel}
+\usepackage{color}
+\usepackage{siunitx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{gensymb}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usetikzlibrary{fadings}
+
+\title{A Review of Techniques Related to Automated Facial Expression Recognition}
+%\author{Austin Dase}
+\author{\IEEEauthorblockN{Austin Dase}
+
+\IEEEauthorblockA{Department of Computer and Information Sciences\\
+Towson University\\
+Towson, Maryland 21252\\
+Email: adase1@students.towson.edu}}
+
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+The ability to recognize emotion displayed by the face is a critical part of human intelligence. This ability that is second-nature to humans is non-trivial for machines faced with the same task. Research has shown that humans can correctly identify expressions of emotion in facial images \cite{cecilione2017test} with a consistently high degree of accuracy while computers have historically struggled when faced with similar tasks. 
+
+The goal of this paper is to survey the existing research that has been done on facial expression recognition in still images. Systems that have implemented facial expression recognition and that have implemented capabilities related to facial expression recognition are examined and reviewed. A robust facial expression recognition system at it's most basic level is an input-output system where inputs are images and outputs are the determined emotion expressed. In the following sections, three distinct modules that make up this type of system are examined: face detection, feature extraction, and classification. The first stage of a robust facial expression recognition system is determining if the image contains a face or not, this is the goal of the face detection module. Various methods for face detection are examined in \ref{FaceDetection}. If no face is detected then the system can cease processing. If a face is detected then the system can proceed with the second module, feature extraction. Feature extraction, examined in \ref{FeatureExtraction}, concerns itself with preparing the image data for the classification module. During the feature extraction stage, relevant data is extracted and transformed to help optimize the classification process. Because image files can have high volumes of extraneous data this phase is often concerned with reducing the volume of data that will be used to make a classification decision in order to improve performance. Finally, the classification module uses the output data from the feature extraction module to classify the emotion being expressed in the image. In \ref{classification}, methods for classification are examined.
+
+The result of this paper will be a consolidation of methods and techniques that can be used as part of a robust system for facial expression recognition in images. Based on the findings of this work, in future work a system will be proposed, implemented, and compared against prior work in the field.
+
+\input{FaceDetection}
+
+\input{FeatureExtraction}
+
+\input{Classification}
+
+\section{Analysis}
+
+%Template Models
+ The findings in \cite{ai2001face} show that the binary nature of the decision, face or non-face, lends itself well to the SVM classifier for face detection. Furthermore, the technique of training the SVM on negatively identified images from the initial filtering phase as well as on initially incorrectly classified images from subsequent testing phases could prove useful in any system implementing a SVM for face detection. Finally, a comparison in terms of performance between \cite{rowley1998nn} and the proposed system in \cite{ai2001face} could mitigate the superiority of System 11 proposed by \cite{rowley1998nn}.
+ 
+% GEometric models 
+ The geometric models for face detection described in \cite{lin2000human} make logical sense using known characteristics of the face to find faces in images. However, this methods seems susceptible to differences in light and camera quality and also might struggle with subjects wearing hats, glasses, or other clothing that obstructs the face. The system proposed by \cite{lin2000human} is simple and straightforward. It can be utilized for both color and grayscale images and has no limitation for image size, resolution or complexity. Accuracy information has not been provided but could be tested. The speed reported may be prohibitively slow but advances in software and hardware since the time of publication (2000) may improve performance. Implementing an automatic thresholding algorithm could improve the performance of the system.
+
+
+%Machine Learning Models
+% Machine Learning Models - Viola Jones
+The methodology proposed by \cite{viola2004robust} is used by many other papers and studies for face detection. The system provides improvements over prior work in terms of speed and accuracy. The methods proposed could be used effectively for face detection and feature extraction in a facial expression recognition system.
+
+% Machine Learning Models - Rowley
+The techniques proposed by \cite{rowley1998nn} demonstrate the ability of neural networks to be used for a variety of tasks with a face detection system. This concept can be applied to facial expression where neural networks could be used for multiple parts of the system. The added handling of face position in \cite{rowley1998nn} provides a technique that can be used to make a system for identifying faces in an image more robust. Further, the multiple layers of neural networks with one arbitrator network at the end provides a way to reduce problems associated with over fitting during model training as well as variance in characteristics of input.
+
+%FAP - ioannou2007robust
+The techniques proposed by \cite{ioannou2007robust} for feature extraction using the eyes, eye brows, and mouth to understand the expression are clearly related to how a human would describe the process of interpreting a facial expression. This provides the benefit of clarity to the system. The methods for eye detection and iris detection outlined in \cite{ioannou2007robust} could be used in other systems for more accurate detection of facial features. 
+
+% Precice Eye center Detection
+Another system attempting to find eye center locations proposed by \cite{skodras2015precise} seems to be effective and efficient at determining eye center locations. The identification of eye center location can be leveraged by multiple other systems that attempt to extract facial features from images as other features can be located relative to the position of the eyes. However, the method proposed in \cite{skodras2015precise} is reliant on color information with is a major limiting factor and may also cause more inefficient processing when analyzing three times as much data as the same image in greyscale would produce.
+
+%Spatiotemporal ICA nad Euclidan Features
+The methods described in \cite{lei2006combination} again mimic how a human might process facial expression recognition. Based on the results of \cite{lei2006combination}, the SVM was found to perform slightly better than K-NN for classification.
+While the extracted Euclidean features were used primarily for scaling in their initial work, \cite{lei2006combination} propose that a combination of ICA features and Euclidean distance features could improve accuracy. This method of scaling could be used in combination with other systems and might provide performance improvements over other more complex scaling methods.
+
+% Eye detection using CNN and SVM
+A major limitation of the study done by \cite{yu2018eye} was the fact that the face detection methods proposed was not able to achieve 100\% accuracy and therefore the researchers manually extracted face regions on those images incorrectly labeled by the face detection phase. Further, the lack of established criteria for evaluating the accuracy of eye region detection posed a challenged so a correct identification was defined as an upper and lower eyelid and two corners fall within the eye region \cite{yu2018eye}. This measure may not provide proper comparison to past research but will suffice for the comparison between CNN and the CNN+SVM system proposed by \cite{yu2018eye}. The results of \cite{yu2018eye} showed that the CNN+SVM method outperformed the CNN for each of the four datasets \cite{yu2018eye}. The CNN+SVM methods were also shown to have greater accuracy than methods proposed in prior work \cite{yu2018eye}. The CNN+SVM method showed the greatest improvement over the SVM methods on images that included subjects wearing glasses. In all, \cite{yu2018eye} showed that a CNN+SVM system is more effective than a standalone CNN at eye region detection in facial images.
+
+
+% LInear REgression
+The linear regression analysis technique proposed by \cite{alazzawi2018performance} is efficient and shown to achieve accurate results. However, with any linear regression, only two features can be assessed for a relationship, this increases the possibility that a relationship between features that were not involved in the regression is missed. Despite this, \cite{alazzawi2018performance} demonstrated reasonably accurate results using their SLP method.
+ 
+%Feature Extraction Gabor
+The multiple methods for feature extraction were examined and compared by \cite{lajevardi2012automatic}. Gabor filters and log Gabor filters were applied to the entire image for collection of localized frequency information. LBP operators were applied to sub-regions of the image for extracting texture information. Mainly frequency information was extracted with Gabor filters, Gabor log filters, HLAC and HLACLS. \cite{lajevardi2012automatic} found log Gabor filters to produce more accurate results than Gabor filters and additionally that Gabor filters are time consuming to apply to images. Overall \cite{lajevardi2012automatic} found the optimal feature extraction method utilized HLACLF for extraction.
+
+% Classification
+While a rule based system like the one demonstrated in \cite{ioannou2007robust} is simple and efficient, a system built around a machine learning classifier can be built to more easily process a larger set of data points. Further, machine learning based classification has shown to perform well at the type of multi-class classification problem that is determining facial expression in images. The activation-emotion space is a method of classification demonstrated in \cite{ioannou2007robust} more accurately reflects the complexity of emotions that humans express. For these reasons, a machine learning model that determines the $(x,y)$ points on the activation-emotion space plot could more accurately reflect the true emotion being expressed in the image.
+
+
+\section{Conclusion}
+The prior sections have compiled many of the most common techniques used for facial expression recognition, face detection and facial recognition. Each of these three tasks are similar in that they involve the processing of image data, extracting features related to faces and making a determination based on the data. A new system that implements the most effective modules of these systems could be reasonably assumed to achieve more accurate results that prior systems. Based on the information provided in this paper, a new system will be proposed, implemented and tested. Based on the techniques examined in this paper, a system using a support vector machine for face detection, edge and object detection for feature extraction and a neural network for classification will be proposed. 
+Support vector machines have been shown to be optimal in the case of a binary decision therefore they may have an advantage when making the determination if there is a face in the image or not. Feature extraction methods that involve multiple layers of extraction and selection have been shown to perform best, therefore a multi-layered extraction model will be proposed. Layers of the model will include face boundary detection detection as proposed by \cite{viola2004robust} and gradient operators similar to those used in \cite{lei2006combination} and \cite{alazzawi2018performance}. Neural networks have been used in the past with positive results for multi-class supervised classification and based on the prior analysis are preferable to a rule based classification scheme. Therefore, a Neural Network will be proposed for the classification module.
+In all, this work has analyzed methods for face detection, face recognition and facial expression recognition. A system for facial expression recognition is decomposed into three sub-modules: face detection, feature extraction and classification and techniques for each from prior work are examined. The foundation has been provided for subsequent work implementing and comparing combinations of the analyzed techniques.
+
+\newpage
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+
+\end{document}

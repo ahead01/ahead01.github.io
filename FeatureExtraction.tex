@@ -1,0 +1,177 @@
+%\documentclass[12pt]{article}
+
+%\usepackage{cite}
+
+
+
+%\begin{document}
+
+
+\section{Feature Extraction and Selection} \label{FeatureExtraction}
+In any facial expression recognition system there are at least two stages: feature extraction and classification \cite{lajevardi2012automatic}. In the feature extraction stage, features (also called attributes) are extracted from the raw image data and are subsequently used as input to the classification stage of the process. The quality of the feature extraction methodology therefore has a major impact on the ability of the classification stage to accurately identify the expression displayed in the original image \cite{lajevardi2012automatic}. Each of these two stages can be further decomposed into sub-modules and can be performed in a variety of ways. 
+
+ In any automatic classification system, a major subset of the system will be concerned with extracting features from the raw data in a format that the classification algorithm can process successfully. The feature extraction process can be decomposed into two steps: feature construction and feature selection \cite{guyon2008feature}. Feature construction concerns itself mostly with transforming the raw data into a format that the system can process; features used as input to classification algorithms can be binary, continuous or categorical \cite{guyon2008feature}. Common feature construction methods include: standardization, normalization, signal enhancement, feature discretization, and non-linear expansion \cite{guyon2008feature}. Feature selection then analyzes the output of the feature construction process and selects the subset of information that will be used as features for classification. While feature selection's primary goal is to filter out noise by selecting the most relevant and informative features, it can also reduce the size of data that must be processed thereby improving algorithm performance and reducing storage requirements \cite{guyon2008feature}.
+
+Construction of features from facial images generally takes one of two approaches: geometric feature-based or appearance-based \cite{tian2011facial}. Geometric feature-based approaches include information about the shape and location of facial components like the mouth, eyes, nose, and eyebrows. These components are represented as features that encode the geometric information each of the components for use in classification \cite{tian2011facial}. Appearance-based methods  apply image filters in order to extract relevant data for use in classification and focus on either the entire face or select regions of the face image without regard to the geometric location of the features \cite{tian2011facial}. 
+ 
+After the feature set has been extracted, it is often necessary to select a subset of features for use in classification. There are two general techniques for feature selection: filter-based methods and wrapper or embedded based methods \cite{guyon2008feature}. Filter-based methods rank features by their relevance or importance to the classification model. Rankings are commonly produced by statistical analysis and do not provide any optimization for prediction performance \cite{guyon2008feature}. Wrapper, or embedded methods utilize a learning model for selection of an optimal feature subset. Features which have the strongest predictive power for the model are selected for use in classification. Embedded feature selection refers to analysis that is done during the training of a model \cite{guyon2008feature}.
+
+
+Feature extraction and selection methods are examined by \cite{lajevardi2012automatic} in order to compare accuracy of different models. Models examined by \cite{lajevardi2012automatic} include Gabor filters, log Gabor filters, local binary pattern (LBP) operators, higher-order local autocorrelation (HLAC) and HLAC-like features (HLACLF). A system is proposed that includes pre-processing, face detection, facial feature detection, facial feature extraction, feature selection, training, and classification modules.  
+
+The pre-processing module generates an image that is uniform in shape and size, has normalized intensity, and depicts a face expressing an emotion \cite{lajevardi2012automatic}. In order to detect the face area, the Viola-Jones method \cite{viola2004robust} is used. The result of the pre-processing is a new image of pixels that the face area detection determined are within the face area.
+
+The methods for feature extraction use by \cite{lajevardi2012automatic} are appearance-based extraction methods. For feature selection, \cite{lajevardi2012automatic} employ both filter and wrapper based methods.
+Mutual information selection seeks to select the features that have the most mutual information between the feature and the classes \cite{lajevardi2012automatic}.
+Minimum redundancy seeks to select features that have the least amount of redundant information between each other \cite{lajevardi2012automatic}.
+A wrapper based optimization approach where classification error is iteratively reduced by removing features at each iteration that have the least predictive power. This wrapper based approach identifies the subset of features that produces the smallest error when classifying the training set of data \cite{lajevardi2012automatic}.
+
+A Naive Bayesian classifier is used for final classification for images from the Cohn-Kanaade database and a K-NN classifier was used for images from the JAFFE database.
+
+The JAFFE and Cohn-Kanade database were used for experimental analysis. For each database, the subjects in the labeled images displayed one of six basic emotions: anger, disgust, fear, happy, sad, and surprise. Classes were each of these emotions as well as a neutral class. Accuracy for each feature extraction methods was compared based on the feature selection method used. For each combination of feature extraction and feature selection method, training and testing was performed three training/testing times and the average result was reported. There was no overlap between subjects in the training set and the testing set in order to ensure person-independent classification. 
+
+
+%\subsection{Spatial Domain Feature Extraction}
+\subsection{Facial Animation Parameters Extraction}
+A robust feature detection method for facial expression recognition in video sequences is presented in \cite{ioannou2007robust}. 19 facial feature points are extracted based on facial animation parameters (FAP) related to the facial action coding system (FACS). In addition to feature extraction, a confidence factor for each extracted point was produced allowing the expression classification stage to take into consideration the quality of each of the extracted features \cite{ioannou2007robust}.
+
+The initial phase of face detection identified face and non-face areas in the image through nonparametric discriminant analysis performed with a support vector machine\cite{ioannou2007robust}. A rectangle boundary of the face is produced and then segmented using anthropometric rules into three regions of interest that are considered candidate regions for the left eye/eyebrow, right eye/eyebrow and the mouth \cite{ioannou2007robust}. Feature extraction is performed on these candidate regions instead of the entire image for improved accuracy and performance.
+
+The head in the image is rotated to an upright position after estimating the head roll rotation based on the position of the eyes relative to one another \cite{ioannou2007robust}. In order to calculate the the angle between the horizontal plane and the eye centers, the eyes and eye centers are identified using a multilayer perceptron network applied to both eye candidate regions independently to produce a template for the shape of the eyes. In subsequent frames, the template is matched to the image to identify the eye using sum of absolute differences \cite{ioannou2007robust}. After rotating the head to an upright position, the segmentation of the face into candidate regions for feature extraction is performed again.
+
+The feature extraction stage from \cite{ioannou2007robust} utilized a series of masks to extract boundaries of the eyes, eyebrows, and mouth. The nose was also detected but used mainly for geometric reference of other features (the eyes should be above the nose and mouth below). In addition to boundary extraction, center point and corner features were determined. 
+
+Eye boundary detection was performed with a combination of masks based on luminance and color information and an edge-based mask\cite{ioannou2007robust}. The first mask described by \cite{ioannou2007robust} is the luminance and color information mask. This mask attempts to identify the eye boundaries based on the iris center and relies on the assumption that the eyelids usually appear darker than the skin and are typically adjacent to the iris \cite{ioannou2007robust}. Each of the eye-candidate regions identified by the neural network are examined independently to create one of these masks for each eye-candidate region. The region is first dilated and then a luminance threshold $t^e_b$ is found by:
+
+\begin{equation}
+\label{eqn_lumThresh1}
+t^e_b \; = \frac{1}{3}(2\langle f_c(L^e, M^e_{nn}) \rangle ) + min(L^e)),
+\end{equation}
+
+
+\begin{equation}
+\label{eqn_integralImage2}
+f_c(A,B) = \{c_{ij}\}, \; c_{ij} = \begin{cases}
+a_{ij}, & b_{ij} \neq 0, \\ 
+0, & b_{ij} = 0,
+\end{cases}
+\end{equation}
+
+where $l^e$ is the luminance channel of the eye candidate area, $\langle \bullet \rangle\ $ is the average over the image area, and $min(X)$ is the minimum value of area $X$ \cite{ioannou2007robust}. After applying $t^e_b$ to $L^e$ a mask identifying the eyelashes and iris is derived. The iris point is found based on the thickness of the object detected in the mask and is determined as the point where the distance obtained from a distance transform for the object is maximized \cite{ioannou2007robust}.
+
+
+After all intended features are extracted, they can be used for classification. A rule based classification system is described by \cite{ioannou2007robust} which is discussed in \ref{3-RBC}.
+
+\subsection{Deep Attentive Multi-path Convolutional Neural Network}
+A novel system for facial expression recognition, Deep Attentive Multi-path Convolutional Neural Network (DAM-CNN), is proposed by \cite{xie2019deep}. The system, consists of three modules: feature extraction, salient region determination and classification. Feature extraction is done with the VGG-Face network as proposed by \cite{parkhi2015deep}. Feature refinement and salient region determination is performed with the proposed attention-based Salient Expressional Region Descriptor (SERD)\cite{xie2019deep}. Classification is performed with the proposed Multi-Path Variation-Suppressing Network (MPVS-Net) \cite{xie2019deep}. Within the context of feature extraction the VGG-Face and the SERD models are the most relevant, the MVS-Net will be discussed further in \ref{3-LBC}.
+
+%\subsubsection{Initial extraction with VGG-SERD}
+Initial feature extraction in \cite{xie2019deep} is performed with the VGG-Face model described in \cite{parkhi2015deep}. The VGG-Face model is a Convolutional Neural Network (CNN) and a pre-trained VGG-Face network that was fine-tuned for feature extraction by mapping the last pooling layer of the network to features of size 7 x 7 x 512 \cite{xie2019deep} for use in the SERD stage.
+
+Based on concepts of Facial Action Coding System (FACS) around facial action units (AU's) described by \cite{friesen1978facial}, \cite{xie2019deep} determined that different facial regions provide unequally weighted information about facial expression. For this reason, the SERD model is proposed to modify the VGG-Face model by identifying features produced by the VGG-Face model that provide the greatest amount of information about the facial expression. The SERD consists of a network that produces an attention mask that quantifies the importance of each position in the feature maps and weights the features accordingly for input into the classification module \cite{xie2019deep}.
+By joining together the VGG-Face model and the SERD the researchers produce a model they call VGG-SERD which produces extracts features from images weighted according to their importance in expression recognition as determined by AU's as described by the FACS.
+
+
+%$$ NEED \ MORE $$
+
+\subsection{Precise Eye Center Detection} \label{FE1}
+Feature extraction has also been done based on facial features and their known positions relative to one another. When this approach is taken, often the eyes are the first feature detected and other features (nose, mouth, eyebrows... etc.) are determined based on their known relative position to the eyes. A method for identifying the precise location of eye centers using color information is described in \cite{skodras2015precise}.
+
+After face regions are detected and segmented into regions of interest using methods described by \cite{viola2004robust}, the regions of interest for each of the eyes are evaluated by the system proposed in \cite{skodras2015precise} to determine the precise center of the eye. The first stage of analysis uses color information to build the eye map. The eye map is built off of evaluation of the $YCbCr$ color space of the image. %ignoring the luminance information $Y$ as the luminance information is not helpful in identifying different skin regions \cite{viola2004robust}.
+ A map $EyeMapc$  of the eye region is built using the $Cb$ and $Cr$ values of the $YCbCr$ color space where:
+\begin{equation}
+\label{eqn_EyeMapC}
+EyeMapC = \frac{1}{3} \{(Cb)^2 + (\overline{Cr})^2 + (\frac{Cb}{Cr}) \}
+\end{equation}
+ 
+ with $Cb$ and $Cr$ normalized over the range [0, 1] and $\overline{Cr} = 1 - Cr$ \cite{skodras2015precise}. Large values in the resulting map indicate a large difference in the color of pixels which is indicative of a boundary between skin and eye. After obtaining the $EyeMapC$ information, the map is divided by the  $Y$ information from the $YCbCr$ space to emphasize the iris area which is typically the brightest area in $EyeMapC$ \cite{skodras2015precise}. To further emphasize the iris area, morphological operations with a circular structuring element are applied to derive $EyeMapI$ \cite{skodras2015precise}. As \cite{skodras2015precise} state that iris size does not significantly vary across humans, the expected proportion of the iris to the face is used to estimate the size of the iris in the image:
+ 
+\begin{equation}
+\label{eqn_EyeMapC}
+EyeMapI = \frac{EyeMapC \oplus B1}{(Y\ominus B2) + \delta}
+\end{equation}
+ 
+ where $\oplus$ detonates gray-scale dilation and $\ominus$ detonates gray-scale erosion and:
+
+\begin{equation}
+\label{eqn_B1}
+B1 = \frac{IrisRad}{2},
+\end{equation}
+
+\begin{equation}
+\label{eqn_B2}
+B2 = \frac{B1}{2},
+\end{equation}
+
+\begin{equation}
+\label{eqn_IrisRad}
+IrisRad = \frac{EyeRegionWidth}{10},
+\end{equation}
+
+\begin{equation}
+\label{eqn_delta}
+\delta = mean(Y \ominus B2 )
+\end{equation}
+
+\cite{skodras2015precise}
+
+Based on the fact that the eye exhibits properties of symmetry, a radial symmetry transform is used to enhance the eye center location in both the luminance image as well as the \textsl{eye map}  by maximizing values at the eye center  \cite{skodras2015precise}. The maximum pixel value $(x_C,y_C)$ of the sum of the radial transformation of the luminance image as well as the radial transformation of the \textsl{eye map} ($C$) designates the estimated eye center location.
+
+Performance of the system proposed by \cite{skodras2015precise} was evaluated using four publicly available database: the GTAV face database, the MUCT face database, the FERET face database and the BUHP database. The normalized error between estimated eye center and manually labeled eye center is used to evaluate the performance of the system on test images. Algorithm accuracy was expressed as the number of normalized errors that fell below an assigned threshold ( .25, .1, and .05), divided by the total number of images in the database \cite{skodras2015precise}. Results showed accurate estimation of eye center in cases when the eyes were not completely closed and when there was not extreme uneven illumination of the subject \cite{skodras2015precise}. For comparison, the algorithm proposed by \cite{skodras2015precise} was evaluated against results from other methods that had either been reported with the same dataset or where an implementation of the algorithm was publicly available. The proposed algorithm outperformed all algorithms compared to in almost every case showing that the proposed method provides a significant improvement over existing techniques \cite{skodras2015precise}.
+
+\subsection{Face Recognition Using Spatiotemporal ICA and Euclidean Features}
+A method combining Spatiotemporal Independent Component Analysis (ICA) and Euclidean Features for face recognition is proposed by \cite{lei2006combination}. In their work, \cite{lei2006combination} extract the distance between the centers of the eyes as well as the distance from the center of the left eye to the center of the mouth in order to create a ratio to scale the image. In order to determine these points, the eyes and mouth had to be identified in the image. For identification of the eyes a multi-step process was used. First candidate regions were identified by implementing a pattern matching algorithm that relied on the light to dark to light contrast of the pupils and eyelashes \cite{lei2006combination}. After identification, candidate regions were analyzed for conformance with known eye shape and size and the candidate regions most closely matching this were selected. Finally the center point of each extracted eye was determined by finding local maxima on approximately the same horizontal level in the two eyes \cite{lei2006combination}. The eye regions were then finalized by selecting all pixels within a pre-determined distance from the detected eye centers \cite{lei2006combination}.
+
+The mouth was detected using edge detection algorithms and known characteristics of mouths. A kirsch edge detection filter was used to identify edges in the image and because mouths are one of the most contrasting features of the face, the mouth was one of the prominent objects highlighted by the edge detector \cite{lei2006combination}. Again, after initial edge detection, the candidate regions were analyzed for conformance to known size and shape characteristics of mouths and the best match was selected as the detected mouth \cite{lei2006combination}. 
+
+After identifying the eyes and mouth, the measurements discussed above were calculated and used to scale the image in preparation for Spatial and Spatiotemporal ICA. Spatial ICA breaks down the input image into components by multiplying the original image pixel values as a matrix with varying equal sized weighting matrices and treating the results as features for analysis. In addition to Spatial ICA, Spatiotemporal ICA was also used by \cite{lei2006combination}, however because Spatiotemporal ICA involves analysis of a sequence of images it is less relevant to the current work analyzing single images. Finally, after using ICA for feature extraction, face recognition was performed using K-NN and SVM classifiers.  
+
+
+
+
+\subsection{Eye Detection Using CNN and SVM}
+An eye detection method based on convolutional neural networks (CNN) and support vector machines (SVM) is presented by \cite{yu2018eye}. Classifiers are applied to the image to detect and refine the eye positions in the image. The classification techniques described by \cite{yu2018eye} start with more coarse filtration methods and progressively utilize finer classification to determine the eye location \cite{yu2018eye}. The methods proposed by \cite{yu2018eye} were shown perform better than previously proposed methods, especially in situations where other detection methods have shown to have shortcomings \cite{yu2018eye}.
+
+The eye detection technique proposed by \cite{yu2018eye} is a three layer system. The first layer is a eye variance filter (EVF). The EVF relies on the observation that the grey level intensity in the eye region is more drastic than in other areas of the face \cite{yu2018eye}. The EVF is constructed based on the intensity of 30 known eye images in the database. By averaging the variation in grey intensity of the 30 training images, a variance image is constructed that represents the average variance values for the 30 known eye images. After the variance image is calculated another 30 known eye images as well as 30 non-eye images are used from the database to calculate the EVF threshold. Each of the 60 images are analyzed for grey intensity variance and their individual variances are correlated with the variance image. A variance threshold is selected so that non eye-images would be discarded and eye images would not be discarded. After this training phase, the EVF is ready to scan new images and filter out non-eye images before moving to the feature extraction phase.
+
+The feature extraction phase of the eye detection system proposed by \cite{yu2018eye} is performed by a CNN. Eye images identified by the EVF are used as the input to the CNN, because the images are 32 x 32 the input layer of the CNN has 1024 inputs. Each of these inputs then map to a smaller set of nodes as they move through the networks hidden layers. What is typically considered the output layer of a CNN is replaced in \cite{yu2018eye} by a SVM, however for training the CNN is treated independently from the SVM. The CNN is trained in a traditional method where the final layer of the CNN represents the classification and training is done until classification results converge for the network \cite{yu2018eye}. Once this traditional training is complete the output layer of the network, which consisted of just two neurons, is replaced by a SVM \cite{yu2018eye}. The inputs to the SVM are the outputs of the hidden layer of the CNN just before the output layer, in the case of \cite{yu2018eye} layer 5. At this point the SVM is trained using the output features from the CNN. The intent of this approach is to utilize each classifier for processes with which it handles best. The CNN is typically used for multi-class classification problems and the SVM is used mainly for solving two-class problems. By introducing the SVM as the last layer of the CNN, the multi-class information derived by the CNN can be used by the SVM to make the final two-class determination.
+
+The system proposed by \cite{yu2018eye} was trained using images from multiple datasets including: the extended M2VTS dabatbase (XM2VTS), Psychological Image Collection at Stirling (PICS) face database, Japanese Female Facial Expression (JAFFE) face database, Milborrow/University of Cape Town (MUCT) face database, California Institute of Technology (Caltech) face database, Self-face database, and face images from Internet websites \cite{yu2018eye}. The system was then tested on images from separate datasets including the BioID, IMM, FERET, and ORL face databases \cite{yu2018eye}.
+
+\subsection{Feature Extraction Using Linear Regression}
+A method for feature extraction using gradient and Laplacian operators along with linear regression is proposed and analyzed in \cite{alazzawi2018performance}. A fundamental operation to the feature extraction process outlined by \cite{alazzawi2018performance} is edge detection. For this reason \cite{alazzawi2018performance} examined the performance of various edge detection operators: Sobel filter (SF), Prewitt filter (PF), Roberts filter (RF), zero cross filter (ZF), Laplacian of Gaussian filter (LG), and Canny filter(CF)\cite{alazzawi2018performance}. The various edge detection filters were combined with the slope of the linear regression (SLP) analysis and artificial neural networks for face recognition\cite{alazzawi2018performance}. While face recognition is a separate field from expression detection, there are many overlapping concepts between the fields. For this reason, the feature extraction methodology described in \cite{alazzawi2018performance} is of greatest relevance to the current work and will be discussed.
+
+The first step in the face recognition algorithm proposed by \cite{alazzawi2018performance} is pre-processing and edge detection. The second step is image segmentation and feature extraction, and the third step is classification. During pre-processing, the face image is first scanned by the selected edge detection algorithm and then segmented into equal sized blocks and treated as a feature vector. Two groups of edge detectors are used: gradient based operators are SF, PF, and RF and Laplacian based operators are LF, ZF, and CF \cite{alazzawi2018performance}. After feature vectors have been created, the proposed SLP extraction method from \cite{alazzawi2018performance} is used to select features that are impacted least by outliers or noise. The SLP method is a unique method proposed by \cite{alazzawi2018performance}, for refining features found by edge detection. First in SLP, images are converted to binary using an edge detection filter then each image is divided into segments. Then for each segment, the pixels with values of 1 are considered points on the $(x, y)$ plane and regression is used to determine the equation for the line of best fit for the points. The slope of the line is then added to a matrix of the slopes of the lines from each of the other segments and the resulting matrix is used as the feature input to the classification algorithm \cite{alazzawi2018performance}.
+
+Combination edge detector and feature extraction methods were tested by \cite{alazzawi2018performance} on the BIO OS database from \cite{bioid}. The experimental results of \cite{alazzawi2018performance} show that the number of segments is one of the most important parameters and that 100 total segments (10 horizontal and 10 vertical) is the optimal number of segments \cite{alazzawi2018performance}. Additionally, the optimal number of neurons in the hidden layers of the neural network is 30 \cite{alazzawi2018performance}. \cite{alazzawi2018performance} also found that the thresholds for the edge detecting algorithms were important to the classification process, however the optimal thresholds for each of the edge detection filters were determined in a separate experiment. Finally, the best performing system is the LoG, SLP and ANN combination with a weighted mean score of over 95\% \cite{alazzawi2018performance}.
+
+%
+
+%$$ NEED \ MORE $$
+
+
+
+%-------- Analysis of \cite{alazzawi2018performance} %----------------
+
+
+%-------------------------------------------------------------------
+
+%\subsection{Frequency Domain Feature Extraction}
+
+\subsection{Gabor Filters}
+Feature extraction using features from the frequency domain as well as the spatial domain is examined in \cite{lajevardi2012automatic}. 
+
+2D Gabor filters can provide information about an image in both the spatial and frequency domains depending on the filter used. Gabor filters have eight degrees of freedom including $(x,\:y)$ coordinates specifying the location of the filter in the spatial domain and $(u,\:v)$ coordinates in the frequency domain, these are the independent variables that can be modified to tune the Gabor filter \cite{daugman1985uncertainty}. \cite{lajevardi2012automatic} performed facial feature extraction using Gabor filters focused on the spatial domain and log Gabor filters in the frequency domain. Log Gabor filters are used to overcome the limitations of Gabor filters in obtaining broad spectral information with maximal spatial localization \cite{lajevardi2012automatic}. Based on the results reported by \cite{lajevardi2012automatic}, log Gabor filters were shown to have better accuracy detecting facial expressions than Gabor filters.
+	The features extracted using log Gabor filters in \cite{lajevardi2012automatic} are intended to capture information about shape, motion, color, texture and spatial configuration of the face aligned at particular orientations. For feature extraction, \cite{lajevardi2012automatic} use a bank of Gabor filters with five frequencies and eight orientations. Filters are expressed in \cite{lajevardi2012automatic} and are convoluted with the original image to create Gabor features. The results of facial expression classification using, Gabor filters, log Gabor filters, local binary pattern, HLAC features, and HLACLF features are compared in \cite{lajevardi2012automatic}.
+	
+
+%$$ NEED \ MORE $$
+
+
+%\bibliographystyle{ieeetr}
+%\bibliography{references}
+
+
+%\end{document}
+
+
