@@ -1,50 +1,162 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Austin Dase</title>
     <meta name="author" content="Austin Dase" />
     <meta name="keywords" content="coding, developing, hacking, machine learning, AI, face rcognition" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Cardo|Montserrat:300,400,500&amp;subset=latin-ext" crossorigin="anonymous" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
-    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Cardo|Montserrat:300,400,500&amp;subset=latin-ext"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css"
+        integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+        integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="./styles.css" />
-  </head>
-  <body class="jumbotron">
-      <!--
-      <div class="container">
-            <h1 class="display-4 text-secondary" >Austin Dase</h1>
-            <h4></h4>
-            <ul class="list-group">
-                <li class="list-group-item list-group-item-secondary" > <a href="#LitReview"> Writing Sample 1</a></li>
-                <!--<li class="list-group-item list-group-item-secondary" > <a href="#LitReview"> Writing Sample 2</a></li>
-                <li class="list-group-item list-group-item-secondary" > <a href="#LitReview"> Writing Sample 3</a></li>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="https://github.com/ahead01">Home</a>
+        <div id="navbarItems" class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="https://ahead01.github.io">Home</a></li>
             </ul>
-      </div>
-    -->
-        <h2 class="display-4 text-secondary">Writing Samples</h2>
-        <h3 class="lead">A Review of Techniques Related to Automated Facial Expression Recognition</h3>
-        <div id="LitReview" style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
-            <iframe src="./LitReview.pdf" width=100% height=100% frameborder="0" allowfullscreen=""
-                style="position:absolute; top:0; left: 0">
-            </iframe>
         </div>
-        <span></span>
-        <h3 class="lead">Machine Learning Feature Selection and Analysis</h3>
-        <div id="featureSelection" style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
-            <iframe src="./Paper-MachineLearningFeatureSelectionAndAnalysis-Dase.pdf" width=100% height=100% frameborder="0" allowfullscreen=""
-                style="position:absolute; top:0; left: 0">
-            </iframe>
+    </nav>
+    <main role="main">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3">Hello, world!</h1>
+                <p>My name is Austin and welcome to my GitHub site. From here you can lear a little more about me,
+                    my repositories and check out some projects I've done.</p>
+                <p><a class="btn btn-primary btn-lg" href="https://github.com/ahead01" role="button">Learn more »</a>
+                </p>
+            </div>
         </div>
-        <div>
-            <!--
-            <iframe src="./PPT-Machine Learning Feature Selection and Analysis-Dase.pdf" width=100% height=100% frameborder="0" allowfullscreen=""
-                style="position:absolute; top:0; left: 0">
-            </iframe>
+        <div class="jumbotron">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Facial Expression Recognition System</h2>
+                    <p>This project is an automated system to detect facial emotions in images.
+                        I developed this project as a student at Towson University and will be submitting it as my
+                        graduation project.
+                        This work is currently in progress so check back for more updates. </p>
+                    <p><a class="btn btn-secondary" href="https://github.com/ahead01/fer" role="button">View Repo
+                            »</a>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Literature Review: Facial Expression Recognition</h2>
+                    <p>This project is a literature review of techniques related to automatic facial expression
+                        recognition.
+                        The paper, which you can read here, is separated into three main sections that correspond
+                        with
+                        the three sub-systems in the system I am currently building; face detection, feature
+                        extraction,
+                        and classification. The paper reviews
+                        various techniques described in prior research for accomplishing each of these tasks.</p>
+                    <p><a class="btn btn-secondary" href="./lit_review.html" role="button">View Paper »</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Machine Learning: Feature Selection</h2>
+                    <p>In this project I analyzed methods for better understanding the relative importance of an
+                        input
+                        feature to a
+                        Machine Learning classification algorithm's classification decision. Spesifically, I
+                        compared
+                        realtive feature predictive power
+                        between Support Vector Machines and Neural Networks on the same dataset </p>
+                    <p><a class="btn btn-secondary" href="./ml_feature.html" role="button">View Paper »</a></p>
+                    <p><a class="btn btn-secondary" href="https://github.com/ahead01/python" role="button">View Repo</a></p>
+                    <!--<h2>Emotion Detection</h2>
+                              <p>This project, simillar to the automatic facial expression recognition project, is related to
+                                  calssifying emotions in images. I submitted this project for my course on Computer Vision and Image Processing.
+                                  The image processing was done using CVIP Tools and C++ and the classification using scikit-learn.</p>
+                              <p><a class="btn btn-secondary" href="./" role="button">View details »</a></p>
+                              -->
+                </div>
+            </div>
+        </div>
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Client Server Messaging: Socket Simulation</h2>
+                    <p>This project shows how messages can be passed from client to server as bytes over a Datagram
+                        Socket.</p>
+                    <p><a class="btn btn-secondary" href="https://github.com/ahead01/650-Networks-Proj"
+                            role="button">View Repo »</a>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Data Structures</h2>
+                    <p>This project is a collection of Java implementations of advanced data structures. I have
+                        implemented
+                        <a href="https://github.com/ahead01/alg_analysis/blob/master/Prog4/BST.java">Binary Search
+                            Trees</a>, <a href="https://github.com/ahead01/alg_analysis/blob/master/Prog5/AVLTree.java">AVL Trees
+                                Trees</a>, and some sorting algorithms. (I apologize for the lack of documentation.)
+
+
+                    </p>
+                    <p><a class="btn btn-secondary" href="https://github.com/ahead01/alg_analysis" role="button">View Repo »</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Image Processing</h2>
+                    <p>This project was a precursor to my above facial expression recognition work. For this one,
+                         the <a href="https://github.com/ahead01/image_processing/blob/master/proj2_v2.c">image processing</a>
+                         was done using CVIP Tools and C++ and the classification using scikit-learn.</p>
+                    <p><a class="btn btn-secondary" href="./ml_feature.html" role="button">View Paper »</a></p>
+
+                    <!--<h2>Emotion Detection</h2>
+                                      <p>This project, simillar to the automatic facial expression recognition project, is related to
+                                          calssifying emotions in images. I submitted this project for my course on Computer Vision and Image Processing.
+                                          The image processing was done using CVIP Tools and C++ and the classification using scikit-learn.</p>
+                                      <p><a class="btn btn-secondary" href="./" role="button">View details »</a></p>
+                                      -->
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="container"><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img
+                alt="Creative Commons License" style="border-width:0"
+                src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons
+            Attribution-NonCommercial 4.0 International License</a>.</footer>
+
+    <div>
+        <!--
+    <h2 class="display-4 text-secondary">Writing Samples</h2>
+    <a href="https://github.com/ahead01/fer">GitHub</a>
+    <h3 class="lead">A Review of Techniques Related to Automated Facial Expression Recognition</h3>
+    <div id="LitReview" style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
+        <iframe src="./LitReview.pdf" width=100% height=100% frameborder="0" allowfullscreen=""
+            style="position:absolute; top:0; left: 0">
+        </iframe>
+    </div>
+    <span></span>
+    <h3 class="lead">Machine Learning Feature Selection and Analysis</h3>
+    <div id="featureSelection" style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
+        <iframe src="./Paper-MachineLearningFeatureSelectionAndAnalysis-Dase.pdf" width=100% height=100% frameborder="0"
+            allowfullscreen="" style="position:absolute; top:0; left: 0">
+        </iframe>
+    </div>
             -->
-        </div>
-  </body>
+    </div>
+    </div>
+</body>
+
 </html>
